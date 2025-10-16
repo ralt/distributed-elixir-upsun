@@ -36,7 +36,8 @@ defmodule HelloDistributed.MixProject do
       {:telemetry_poller, "~> 1.1"},
       {:jason, "~> 1.4"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:libcluster, "~> 3.4"}
     ]
   end
 end
