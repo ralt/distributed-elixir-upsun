@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:mcp.upsun.com)",
+      "WebSearch",
+      "Bash(elixir:*)",
+      "WebFetch(domain:docs.upsun.com)",
+      "Bash(chmod:*)",
+      "Bash(tree:*)",
+      "Bash(find:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

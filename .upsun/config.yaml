@@ -1,0 +1,55 @@
+applications:
+  hello_distributed:
+    type: 'elixir:1.18'
+
+    variables:
+      env:
+        MIX_ENV: 'prod'
+        # Enable distributed Erlang
+        ENABLE_DISTRIBUTION: 'true'
+        # Set a secure Erlang cookie for node communication
+        # In production, generate this securely: mix phx.gen.secret
+        ERLANG_COOKIE: 'change_this_to_a_secure_random_string'
+        NODE_NAME: 'hello_distributed'
+
+    hooks:
+      build: |
+        # Install Hex and rebar
+        mix local.hex --force
+        mix local.rebar --force
+
+        # Get dependencies and compile
+        mix do deps.get --only prod, deps.compile
+
+        # Compile the application
+        mix compile
+
+        # Generate a secret key base if not set
+        if [ -z "$SECRET_KEY_BASE" ]; then
+          export SECRET_KEY_BASE=$(mix phx.gen.secret)
+        fi
+
+    web:
+      commands:
+        start: ./start.sh
+
+      locations:
+        /:
+          passthru: true
+          allow: true
+
+      upstream:
+        socket_family: tcp
+        protocol: http
+
+    mounts:
+      '/tmp':
+        source: 'local'
+        source_path: 'tmp'
+
+# Optional: Add multiple instances for testing OTP distribution
+# Uncomment the scaling section to run multiple instances
+# workers:
+#   hello_distributed:
+#     size: S
+#     count: 3
