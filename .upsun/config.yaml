@@ -37,6 +37,8 @@ applications:
         /:
           passthru: true
           allow: true
+          request_buffering:
+            enabled: false
 
       upstream:
         socket_family: tcp
