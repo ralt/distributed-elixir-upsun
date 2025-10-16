@@ -19,7 +19,7 @@ defmodule HelloDistributed.Application do
               |> Map.keys()
               |> Enum.map(&String.to_atom/1)
               |> Enum.reject(&(&1 == current_node))
-	      |> Enum.map(fn {peer, address} -> "#{extract_name(peer)}@#{address}")
+	      |> Enum.map(fn {peer, address} -> "#{extract_name(peer)}@#{address}" end)
 
             {:error, reason} ->
               Logger.warning("Failed to parse peers JSON from #{@peers_file}: #{inspect(reason)}")
