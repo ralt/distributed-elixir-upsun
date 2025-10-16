@@ -15,7 +15,9 @@ defmodule HelloDistributed.Application do
       # Start the Endpoint (http/https)
       HelloDistributedWeb.Endpoint,
       # Start the distributed counter GenServer
-      {HelloDistributed.DistributedCounter, name: HelloDistributed.DistributedCounter}
+      {HelloDistributed.DistributedCounter, name: HelloDistributed.DistributedCounter},
+      # Connect to peer nodes
+      HelloDistributed.PeerConnector
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
