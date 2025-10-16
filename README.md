@@ -106,11 +106,13 @@ This application demonstrates OTP distribution through a distributed counter:
    - `Node.self()` - Current node name
    - `Node.list()` - All connected nodes
    - Nodes automatically discover each other when configured with the same cookie
+   - On Upsun, uses `/run/peers.json` to automatically discover and connect to peer nodes
 
 3. **Configuration** (`config/runtime.exs`):
    - Sets up node name and cookie at runtime
    - Enables longnames for distributed communication
    - Uses environment variables for production settings
+   - Reads `/run/peers.json` to connect to other application instances
 
 ## Testing Distribution on Upsun
 
