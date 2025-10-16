@@ -25,6 +25,7 @@ applications:
 
         # Compile the application
         mix compile
+        mkdir -p priv/static
         mix phx.digest
 
         # Generate a secret key base if not set

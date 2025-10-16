@@ -9,7 +9,7 @@ defmodule HelloDistributed.DistributedCounter do
 
   # Client API
 
-  def start_link(opts) do
+  def start_link(_opts) do
     # Register globally - only one process across the cluster will succeed
     case GenServer.start_link(__MODULE__, 0, name: {:global, __MODULE__}) do
       {:ok, pid} ->

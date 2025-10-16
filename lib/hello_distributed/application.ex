@@ -47,7 +47,7 @@ defmodule HelloDistributed.Application do
       peers: [
         strategy: Cluster.Strategy.Epmd,
         config: [
-          hosts: [load_peers()]
+          hosts: load_peers()
         ]
       ]
     ]
