@@ -29,6 +29,7 @@ defmodule HelloDistributed.MixProject do
     [
       {:phoenix, "~> 1.7.18"},
       {:phoenix_html, "~> 4.1"},
+      {:phoenix_live_view, "~> 1.0"},
       {:phoenix_live_reload, "~> 1.5", only: :dev},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.1"},
