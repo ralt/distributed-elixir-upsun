@@ -116,9 +116,6 @@ upsun project:create --title "Hello Distributed Elixir"
 ```bash
 # Generate Erlang cookie
 upsun variable:create --level project --name ERLANG_COOKIE --value "$(mix phx.gen.secret)"
-
-# Set hostname (replace with your actual domain)
-upsun variable:create --level project --name PHX_HOST --value "your-app.upsun.app"
 ```
 
 ### 4. Deploy

@@ -87,12 +87,6 @@ upsun variable:create \
   --level project \
   --name ERLANG_COOKIE \
   --value "$(mix phx.gen.secret)"
-
-# Set Phoenix host (replace with your actual domain)
-upsun variable:create \
-  --level project \
-  --name PHX_HOST \
-  --value "your-app.upsun.app"
 ```
 
 ### Step 3: Deploy
