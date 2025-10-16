@@ -29,9 +29,8 @@ if config_env() == :prod do
   end
 
   # Set the node name for distributed Erlang
-  # In Upsun, we can use the application name and instance number
-  node_name = System.get_env("NODE_NAME") || "hello_distributed"
-  instance_id = System.get_env("PLATFORM_APPLICATION_NAME") || "app"
+  node_name = System.get_env("NODE_NAME")
+  instance_id = System.get_env("PLATFORM_APPLICATION_NAME")
 
   # This will be something like hello_distributed@app-0
   full_node_name = "#{node_name}@#{instance_id}"
