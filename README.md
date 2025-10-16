@@ -137,3 +137,7 @@ HelloDistributed.Application
 - [Elixir OTP Distribution](https://elixir-lang.org/getting-started/mix-otp/distributed-tasks.html)
 - [Upsun Elixir Documentation](https://docs.upsun.com/languages/elixir.html)
 - [Erlang Distribution Protocol](https://www.erlang.org/doc/reference_manual/distributed.html)
+
+---
+
+Built with [Claude](https://claude.ai)
