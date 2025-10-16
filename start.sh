@@ -9,6 +9,8 @@ if [ -f "$PEERS_FILE" ]; then
 
   # Parse the JSON and create an Elixir module to connect nodes
   cat > /tmp/connect_nodes.exs << 'ELIXIR_SCRIPT'
+Mix.install([{:jason, "~> 1.4"}])
+
 peers_file = "/run/peers.json"
 
 if File.exists?(peers_file) do
