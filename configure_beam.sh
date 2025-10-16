@@ -11,10 +11,10 @@ fi
 CPU=$(jq -r '.info.limits.cpu' "$CONFIG_FILE")
 MEMORY=$(jq -r '.info.limits.memory' "$CONFIG_FILE")
 
-# Calculate schedulers
-if (( $(echo "$CPU < 0.5" | bc -l) )); then
+# Calculate schedulers using awk instead of bc
+if awk "BEGIN {exit !($CPU < 0.5)}"; then
   SCHEDULERS=1
-elif (( $(echo "$CPU < 1.0" | bc -l) )); then
+elif awk "BEGIN {exit !($CPU < 1.0)}"; then
   SCHEDULERS=2
 else
   SCHEDULERS=$(printf "%.0f" "$CPU")
@@ -24,7 +24,7 @@ fi
 FLAGS="+S ${SCHEDULERS}:${SCHEDULERS}"
 
 # Low CPU optimizations
-if (( $(echo "$CPU < 0.5" | bc -l) )); then
+if awk "BEGIN {exit !($CPU < 0.5)}"; then
   FLAGS="$FLAGS +sbwt none +sbwtdcpu none +sbwtdio none"
 fi
 

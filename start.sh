@@ -39,8 +39,8 @@ if [ -f "$PEERS_FILE" ]; then
 
   # Build list of peer nodes for sync_nodes_optional (exclude self)
   PEER_NODES=$(jq -r --arg node "$NODE_NAME" --arg host "$HOSTNAME" \
-    'to_entries[] | select(.key != $host) | "'"'${NODE_NAME}@"'" + .value' \
-    "$PEERS_FILE" | paste -sd "," -)
+    'to_entries[] | select(.key != $host) | "\($node)@" + .value' \
+    "$PEERS_FILE" | sed "s/^/'/;s/$/'/" | paste -sd "," -)
 
   echo "Starting node: ${NODE_NAME}@${HOST_IP}"
   echo "Peer nodes for auto-connect: ${PEER_NODES}"
