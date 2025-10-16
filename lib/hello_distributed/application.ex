@@ -4,6 +4,7 @@ defmodule HelloDistributed.Application do
   @moduledoc false
 
   use Application
+  require Logger
 
   @peers_file "/run/peers.json"
 
@@ -18,6 +19,7 @@ defmodule HelloDistributed.Application do
               peers
               |> Enum.reject(fn {peer, _address} -> String.to_atom(peer) == current_node end)
               |> Enum.map(fn {peer, address} -> "#{extract_name(peer)}@#{address}" end)
+	      |> Enum.map(&String.to_atom/1)
 
             {:error, reason} ->
               Logger.warning("Failed to parse peers JSON from #{@peers_file}: #{inspect(reason)}")

@@ -15,7 +15,7 @@ defmodule HelloDistributed.DistributedCounter do
       {:ok, pid} ->
         {:ok, pid}
 
-      {:error, {:already_started, pid}} ->
+      {:error, {:already_started, _pid}} ->
         # Another node already has the counter, ignore gracefully
         :ignore
     end

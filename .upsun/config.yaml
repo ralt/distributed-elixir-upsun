@@ -25,6 +25,7 @@ applications:
 
         # Compile the application
         mix compile
+        mix phx.digest
 
         # Generate a secret key base if not set
         if [ -z "$SECRET_KEY_BASE" ]; then
