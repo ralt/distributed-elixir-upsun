@@ -28,14 +28,4 @@ if config_env() == :prod do
     Node.set_cookie(String.to_atom(erlang_cookie))
   end
 
-  # Set the node name for distributed Erlang
-  node_name = System.get_env("NODE_NAME")
-  instance_id = System.get_env("PLATFORM_APPLICATION_NAME")
-
-  # This will be something like hello_distributed@app-0
-  full_node_name = "#{node_name}@#{instance_id}"
-
-  if System.get_env("ENABLE_DISTRIBUTION") == "true" do
-    Node.start(String.to_atom(full_node_name), :longnames)
-  end
 end
