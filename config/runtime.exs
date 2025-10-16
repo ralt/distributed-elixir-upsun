@@ -20,12 +20,4 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
-  # Configure the node for distributed Erlang
-  # The cookie is used for authentication between nodes
-  erlang_cookie = System.get_env("ERLANG_COOKIE")
-
-  if erlang_cookie do
-    Node.set_cookie(String.to_atom(erlang_cookie))
-  end
-
 end
