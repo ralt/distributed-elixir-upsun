@@ -2,7 +2,7 @@
 set -e
 
 # Get the node name and cookie from environment
-NODE_NAME="$(hostname)"
+NODE_NAME="$(hostname -s)"
 HOST_IP="$(hostname -i)"
 export RELEASE_COOKIE="${ERLANG_COOKIE:-change_this_to_a_secure_random_string}"
 export RELEASE_NODE="${NODE_NAME}@${HOST_IP}"
