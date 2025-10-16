@@ -10,21 +10,29 @@ defmodule HelloDistributed.DistributedCounter do
   # Client API
 
   def start_link(opts) do
-    GenServer.start_link(__MODULE__, 0, opts)
+    # Register globally - only one process across the cluster will succeed
+    case GenServer.start_link(__MODULE__, 0, name: {:global, __MODULE__}) do
+      {:ok, pid} ->
+        {:ok, pid}
+
+      {:error, {:already_started, pid}} ->
+        # Another node already has the counter, ignore gracefully
+        :ignore
+    end
   end
 
   @doc """
   Get the current counter value from any node in the cluster.
   """
   def get do
-    GenServer.call({__MODULE__, find_counter_node()}, :get)
+    GenServer.call({:global, __MODULE__}, :get)
   end
 
   @doc """
   Increment the counter from any node in the cluster.
   """
   def increment do
-    GenServer.call({__MODULE__, find_counter_node()}, :increment)
+    GenServer.call({:global, __MODULE__}, :increment)
   end
 
   @doc """
@@ -59,16 +67,5 @@ defmodule HelloDistributed.DistributedCounter do
   end
 
   # Private Functions
-
-  defp find_counter_node do
-    # Try to find the counter on any node, defaulting to the current node
-    all_nodes = [Node.self() | Node.list()]
-
-    Enum.find(all_nodes, Node.self(), fn node ->
-      case :rpc.call(node, Process, :whereis, [__MODULE__]) do
-        pid when is_pid(pid) -> true
-        _ -> false
-      end
-    end)
-  end
+  # (find_counter_node removed - we now use {:global, __MODULE__} directly)
 end

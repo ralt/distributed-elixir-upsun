@@ -7,8 +7,10 @@ defmodule HelloDistributed.Application do
 
   @impl true
   def start(_type, _args) do
-    # Base children that should run on all nodes
-    base_children = [
+    # Children that should run on all nodes
+    # The counter uses :global registration, so only one will be active cluster-wide
+    # but starting it on all nodes enables automatic failover
+    children = [
       # Telemetry supervisor
       HelloDistributedWeb.Telemetry,
       # Start the PubSub system
@@ -16,15 +18,10 @@ defmodule HelloDistributed.Application do
       # Start the Endpoint (http/https)
       HelloDistributedWeb.Endpoint,
       # Connect to peer nodes
-      HelloDistributed.PeerConnector
+      HelloDistributed.PeerConnector,
+      # Start the distributed counter (globally registered, only one active)
+      {HelloDistributed.DistributedCounter, name: HelloDistributed.DistributedCounter}
     ]
-
-    # Only start the counter on the primary node to ensure single source of truth
-    children = if is_primary_node?() do
-      base_children ++ [{HelloDistributed.DistributedCounter, name: HelloDistributed.DistributedCounter}]
-    else
-      base_children
-    end
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
@@ -41,18 +38,5 @@ defmodule HelloDistributed.Application do
   end
 
   # Private Functions
-
-  # Determines if this node should be the primary node (the one running the counter)
-  # Strategy: Use environment variable PRIMARY_NODE=true, or default to the first node alphabetically
-  defp is_primary_node? do
-    case System.get_env("PRIMARY_NODE") do
-      "true" -> true
-      "false" -> false
-      _ ->
-        # If not specified, the primary is the first node alphabetically
-        # This ensures deterministic primary selection across the cluster
-        all_nodes = Enum.sort([Node.self() | Node.list()])
-        Node.self() == List.first(all_nodes)
-    end
-  end
+  # (is_primary_node? removed - counter now uses :global registration for automatic failover)
 end
