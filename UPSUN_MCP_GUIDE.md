@@ -62,7 +62,6 @@ After setting up the MCP, you can interact with Upsun through natural language:
 "What's the status of my deployments?"
 "Show me the logs for the production environment"
 "Scale my application to 3 instances"
-"Add an environment variable SECRET_KEY_BASE"
 ```
 
 ## Deploying This Project
@@ -83,12 +82,6 @@ upsun project:create --title "Hello Distributed Elixir"
 ### Step 2: Set Environment Variables
 
 ```bash
-# Generate and set secret key base
-upsun variable:create \
-  --level project \
-  --name SECRET_KEY_BASE \
-  --value "$(mix phx.gen.secret)"
-
 # Generate and set Erlang cookie for distribution
 upsun variable:create \
   --level project \

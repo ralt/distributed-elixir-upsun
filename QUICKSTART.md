@@ -114,9 +114,6 @@ upsun project:create --title "Hello Distributed Elixir"
 ### 3. Set Required Variables
 
 ```bash
-# Generate secret key
-upsun variable:create --level project --name SECRET_KEY_BASE --value "$(mix phx.gen.secret)"
-
 # Generate Erlang cookie
 upsun variable:create --level project --name ERLANG_COOKIE --value "$(mix phx.gen.secret)"
 

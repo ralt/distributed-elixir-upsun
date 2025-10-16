@@ -9,7 +9,9 @@
       "Bash(tree:*)",
       "Bash(find:*)",
       "Bash(mix deps.get:*)",
-      "Bash(mix compile:*)"
+      "Bash(mix compile:*)",
+      "Bash(git commit -m*",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

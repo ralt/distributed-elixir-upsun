@@ -74,9 +74,6 @@ The project includes `.upsun/config.yaml` with:
 Before deploying, set these variables in Upsun:
 
 ```bash
-# Generate a secure secret key base
-upsun variable:create --level project --name SECRET_KEY_BASE --value "$(mix phx.gen.secret)"
-
 # Generate a secure Erlang cookie
 upsun variable:create --level project --name ERLANG_COOKIE --value "$(mix phx.gen.secret)"
 
