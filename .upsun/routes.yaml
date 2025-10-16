@@ -2,10 +2,6 @@ routes:
   "https://{default}/":
     type: upstream
     upstream: "hello_distributed:http"
-
-  "https://{default}/live/websocket":
-    type: upstream
-    upstream: "hello_distributed:http"
     cache:
       enabled: false
 
