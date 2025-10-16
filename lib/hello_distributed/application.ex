@@ -5,14 +5,49 @@ defmodule HelloDistributed.Application do
 
   use Application
 
+  @peers_file "/run/peers.json"
+
+  defp load_peers do
+    if File.exists?(@peers_file) do
+      case File.read(@peers_file) do
+        {:ok, content} ->
+          case Jason.decode(content) do
+            {:ok, peers} when is_map(peers) ->
+              current_node = Node.self()
+
+              peers
+              |> Map.keys()
+              |> Enum.map(&String.to_atom/1)
+              |> Enum.reject(&(&1 == current_node))
+	      |> Enum.map(fn {peer, address} -> "#{extract_name(peer)}@#{address}")
+
+            {:error, reason} ->
+              Logger.warning("Failed to parse peers JSON from #{@peers_file}: #{inspect(reason)}")
+              []
+          end
+
+        {:error, reason} ->
+          Logger.warning("Failed to read peers file #{@peers_file}: #{inspect(reason)}")
+          []
+      end
+    else
+      Logger.debug("Peers file not found at #{@peers_file}")
+      []
+    end
+  end
+
+  defp extract_name(long_node_name) do
+    String.split(long_node_name, ".") |> List.first()
+  end
+
   @impl true
   def start(_type, _args) do
     # Configure libcluster topology
     topologies = [
       peers: [
-        strategy: HelloDistributed.ClusterStrategy,
+        strategy: Cluster.Strategy.Epmd,
         config: [
-          polling_interval: 5_000
+          hosts: [load_peers()]
         ]
       ]
     ]
