@@ -98,9 +98,11 @@ upsun push
 This application demonstrates OTP distribution through a distributed counter:
 
 1. **Distributed Counter GenServer** (`lib/hello_distributed/distributed_counter.ex`):
-   - Runs on each node in the cluster
-   - Can find and communicate with counters on other nodes
-   - Uses `:rpc.call/4` to locate the counter across nodes
+   - Uses global registration with `{:global, __MODULE__}` to ensure only one counter process exists across the entire cluster
+   - When nodes connect, only the first node to start successfully registers the counter globally
+   - Other nodes attempting to start the counter receive `:ignore` and gracefully skip registration
+   - All nodes can access the counter by calling `{:global, __MODULE__}` - Erlang automatically routes to the correct node
+   - Maintains a single source of truth for the counter value across all instances
 
 2. **Node Discovery**:
    - `Node.self()` - Current node name
