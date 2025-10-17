@@ -18,13 +18,11 @@ if [ -n "$PLATFORM_ROUTES" ]; then
 fi
 
 # Get the node name and cookie from environment
-export NODE_NAME="$(hostname -s)"
-HOST_IP="$(hostname -i)"
-export RELEASE_COOKIE="${ERLANG_COOKIE:-change_this_to_a_secure_random_string}"
-export RELEASE_NODE="${NODE_NAME}@${HOST_IP}"
+NODE_NAME="${NODE_NAME:-hello_distributed}"
+ERLANG_COOKIE="${ERLANG_COOKIE:-change_this_to_a_secure_random_string}"
 
-if (( "$(cat /run/peers.json | jq length)" > 1 )); then
-  echo "More than one peer found, starting with distribution enabled"
+# Check if we should enable distributed mode
+PEERS_FILE="/run/peers.json"
 
 if [ -f "$PEERS_FILE" ]; then
   echo "Peers file found, starting with distribution enabled"
@@ -67,6 +65,6 @@ if [ -f "$PEERS_FILE" ]; then
       -S mix phx.server
   fi
 else
-  echo "Not enough peers found, starting without distribution"
+  echo "Peers file not found at $PEERS_FILE, starting without distribution"
   mix phx.server
 fi
