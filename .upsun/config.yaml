@@ -38,7 +38,7 @@ applications:
         start: ./start.sh
         post_start: |
           date
-          while (( $(curl -s localhost -o /dev/null -w "%{http_code}") != 200 )); do echo retrying in a sec...; sleep 1; done
+          curl -fsS --retry 20 --retry-connrefused --retry-all-errors --retry-delay 1 localhost -o /dev/null
 
       locations:
         /:
